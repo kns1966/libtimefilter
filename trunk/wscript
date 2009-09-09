@@ -1,5 +1,5 @@
 VERSION = '0.1' 
-APPNAME = 'libpendule'
+APPNAME = 'libtimefilter'
 srcdir = '.' 
 blddir = 'build' 
 
@@ -25,9 +25,9 @@ def build(bld):
 
     obj = bld.new_task_gen(
 	            features = 'subst',
-	            source = 'pendule.pc.in')
-    obj.env.table.update({'PKG_LIBS': '-lpendule -lm', 'VERSION': VERSION})
-    bld.install_files('${PREFIX}/lib/pkgconfig', 'pendule.pc')
+	            source = 'timefilter.pc.in')
+    obj.env.table.update({'PKG_LIBS': '-ltimefilter -lm', 'VERSION': VERSION})
+    bld.install_files('${PREFIX}/lib/pkgconfig', 'timefilter.pc')
 
 
 

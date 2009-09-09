@@ -10,5 +10,5 @@ echo "Output: $data"
 echo
 
 export LD_LIBRARY_PATH=build/default/src:$LD_LIBRARY_PATH
-build/default/tests/pendule-measure $data
+build/default/tests/timefilter-measure $data
 
