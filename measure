@@ -1,0 +1,14 @@
+#!/bin/bash
+
+data=measures/data.mat
+
+echo
+echo "========================="
+echo "Measuring timing accuracy"
+echo "========================="
+echo "Output: $data"
+echo
+
+export LD_LIBRARY_PATH=build/default/src:$LD_LIBRARY_PATH
+build/default/tests/pendule-measure $data
+

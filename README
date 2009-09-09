@@ -1,0 +1,70 @@
+==============
+Pendule README
+==============
+
+Introduction
+------------
+
+Pendule is a C library for accurate time stamping from a real-time
+context. It is heavily based on Fons Adriaensen's work about "Using a DLL
+to filter time" (http://www.kokkinizita.net/papers/usingdll.pdf).
+
+Its primary target is audio applications, and especially JACK based ones.
+But chances are it may also be useful in other kind of software, not only 
+audio or JACK related ones.
+
+It also provides some tools to mesure the raw and corrected accuracy of your
+system and hardware.
+
+Requirements
+------------
+
+- JACK >= 0.109
+- octave >= 3
+
+Documentation
+-------------
+
+There isn't much doc for now. See src/pendule.h for the API.
+
+Compilation
+-----------
+
+Building Pendule with waf::
+
+  $ ./waf configure
+  $ ./waf build
+
+Measuring
+---------
+
+You can run all the measuring tools at once with::
+
+  $ ./measure
+
+Then generate graphs into measures/ using::
+
+  $ ./graph
+
+Installation
+------------
+
+If you want to install Pendule into a specific location then check the 
+--prefix option of the waf configure task. Otherwise simply type::
+
+  $ ./waf install
+
+Licensing
+---------
+
+Copyright (c) 2009 Olivier Guilyardi <olivier samalyse com>
+
+Pendule is released under the terms of the CeCILL-B Free Software License 
+Agreement version 1.0. Please see the LICENSE file for details.
+
+
+
+
+
+
+
