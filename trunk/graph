@@ -1,0 +1,21 @@
+#!/bin/bash
+
+data=measures/data.mat
+graph=measures/graph.png
+graph3d=measures/3dgraph.png
+multigraph=measures/multigraph.png
+shortgraph=measures/shortgraph.png
+periodgraph=measures/periodgraph.png
+
+echo
+echo "=================================="
+echo "Generating drift and jitter graphs"
+echo "=================================="
+echo
+
+tests/graph.mat $data $graph
+tests/3dgraph.mat $data $graph3d
+tests/multigraph.mat $data $multigraph
+tests/graph.mat $data $shortgraph 200
+tests/periodgraph.mat $data $periodgraph 100
+

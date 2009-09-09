@@ -1,0 +1,35 @@
+#! /usr/bin/octave -qf
+
+args = argv();
+printf("Loading data from %s\n", args{1});
+data = load(args{1});
+
+figure(1, "visible", "off");
+
+printf("Generating drift graph\n");
+
+if length(args) >= 3
+    data = data(1:str2num(args{3}),:);
+    printf("Using %d data samples\n", length(data));
+endif;   
+
+subplot(2,1,1);
+plot(data(:,1) / 1000, data(:,2) - data(:,1), "b;audio time drift;", data(:,1) / 1000, data(:,3) - data(:,1), "r;filter time drift;");
+xlabel("system time (s)");
+ylabel("drift (ms)");
+title("Drift");
+replot;
+
+printf("Generating jitter graph\n");
+
+subplot(2,1,2);
+plot(data(:,1) / 1000, data(:,4), "b;system time jitter;", data(:,1) / 1000, data(:,5), "r;filter time jitter;");
+xlabel("system time (s)");
+ylabel("jitter (ms)");
+title("Jitter");
+replot;
+
+printf("Writing graph into %s\n", args{2});
+print(args{2}, "-dpng", "-S800,700");
+
+
