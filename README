@@ -9,9 +9,8 @@ libtimefilter is a C library for accurate time stamping from a real-time
 context. It is heavily based on Fons Adriaensen's work about "Using a DLL
 to filter time" (http://www.kokkinizita.net/papers/usingdll.pdf).
 
-Its primary target is audio applications, and especially JACK based ones.
-But chances are it may also be useful in other kind of software, not only 
-audio or JACK related ones.
+Its primary target is audio applications, and especially JACK based ones,
+but chances are it may also be useful in other kinds of software.
 
 It also provides some tools to mesure the raw and corrected accuracy of your
 system and hardware.
