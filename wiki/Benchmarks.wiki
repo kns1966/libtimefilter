@@ -1,6 +1,6 @@
 #summary Benchmarks on various hardware
 
-= libfilter benchmarks =
+= libtimefilter benchmarks =
 
 <p>This page presents timing accuracy benchmarks produced using 
 libtimefilter on various hardware.</p>
