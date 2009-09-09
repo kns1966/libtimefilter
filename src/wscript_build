@@ -1,8 +1,8 @@
 obj = bld.new_task_gen('cc', 'shlib') 
-obj.name = 'pendule'
-obj.source = ['pendule.c'] 
-obj.target = 'pendule'
-bld.install_files('${PREFIX}/include', 'pendule.h')
+obj.name = 'timefilter'
+obj.source = ['timefilter.c'] 
+obj.target = 'timefilter'
+bld.install_files('${PREFIX}/include', 'timefilter.h')
 
 #------------------------------------------------------------------------------------
 # Rules for library version information:

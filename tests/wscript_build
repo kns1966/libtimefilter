@@ -2,5 +2,5 @@ obj = bld.new_task_gen('cc', 'cprogram')
 obj.source = ['measure.c'] 
 obj.includes = '../src'
 obj.uselib = "JACK"
-obj.uselib_local = "pendule"
-obj.target = 'pendule-measure'
+obj.uselib_local = "timefilter"
+obj.target = 'timefilter-measure'

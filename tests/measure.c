@@ -1,7 +1,35 @@
 /*
- * Pendule - A library for accurate time stamping
- * Copyright (c) 2009 Olivier Guilyardi <olivier samalyse com>
- * License: CeCILL-B Free Software License Agreement version 1.0
+ * libtimefilter - A library for accurate time stamping
+ * author: Olivier Guilyardi <olivier samalyse com>
+ *
+ * Copyright (c) 2009, Samalyse SARL - All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 
+ * * Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * 
+ * * Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * 
+ * * Neither the name of Samalyse SARL nor the names of its contributors
+ *   may be used to endorse or promote products derived from this software
+ *   without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdlib.h>
@@ -14,15 +42,15 @@
 #include <time.h>
 #include <jack/jack.h>
 #include <jack/ringbuffer.h>
-#include "pendule.h"
+#include "timefilter.h"
 
 typedef struct TimeData {
-    PenduleStats stats;
+    TimeFilterStats stats;
     char xrun;
 } TimeData;
 
 jack_ringbuffer_t *ringbuffer;
-Pendule *pendule;
+TimeFilter *timefilter;
 FILE *data_file = NULL;
 double sample_rate;
 jack_client_t *client;
@@ -39,8 +67,8 @@ process(jack_nframes_t nframes, void *arg)
     t = (double) tv.tv_sec + (double) tv.tv_usec / 1000000.0;
     t -= (double) offset / sample_rate;
 
-    pendule_update(pendule, t);
-    pendule_stats(pendule, &(data.stats));
+    timefilter_update(timefilter, t);
+    timefilter_stats(timefilter, &(data.stats));
     data.xrun = 0;
 
     if (jack_ringbuffer_write_space(ringbuffer) >= sizeof(TimeData)) {
@@ -58,7 +86,7 @@ xrun(void *arg)
     TimeData data;
     data.xrun = 1;
 
-    pendule_reset(pendule);
+    timefilter_reset(timefilter);
     if (jack_ringbuffer_write_space(ringbuffer) >= sizeof(TimeData)) {
         jack_ringbuffer_write(ringbuffer, (char *) &data, sizeof(TimeData));
     } else {
@@ -76,7 +104,7 @@ int
 main(int argc, char *argv[]) 
 {
     jack_status_t status;
-    client = jack_client_open("pendule", 0, &status);
+    client = jack_client_open("timefilter", 0, &status);
 
     if (!client) {
         fprintf(stderr, "Can't register as JACK client\n");
@@ -87,7 +115,7 @@ main(int argc, char *argv[])
     jack_set_xrun_callback(client, xrun, NULL);
     sample_rate = jack_get_sample_rate(client);
     double buffer_size = jack_get_buffer_size(client);
-    pendule = pendule_new(buffer_size / sample_rate, BANDWIDTH);
+    timefilter = timefilter_new(buffer_size / sample_rate, BANDWIDTH);
 
     ringbuffer = jack_ringbuffer_create(8192);
 

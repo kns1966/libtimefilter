@@ -3,7 +3,7 @@ exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
 
-Name: pendule
+Name: timefilter
 Description: Library for accurate time stamping
 Version: @VERSION@
 Libs: -L${libdir} @PKG_LIBS@

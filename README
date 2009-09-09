@@ -1,11 +1,11 @@
 ==============
-Pendule README
+libtimefilter README
 ==============
 
 Introduction
 ------------
 
-Pendule is a C library for accurate time stamping from a real-time
+libtimefilter is a C library for accurate time stamping from a real-time
 context. It is heavily based on Fons Adriaensen's work about "Using a DLL
 to filter time" (http://www.kokkinizita.net/papers/usingdll.pdf).
 
@@ -25,12 +25,12 @@ Requirements
 Documentation
 -------------
 
-There isn't much doc for now. See src/pendule.h for the API.
+There isn't much doc for now. See src/timefilter.h for the API.
 
 Compilation
 -----------
 
-Building Pendule with waf::
+Building libtimefilter with waf::
 
   $ ./waf configure
   $ ./waf build
@@ -49,7 +49,7 @@ Then generate graphs into measures/ using::
 Installation
 ------------
 
-If you want to install Pendule into a specific location then check the 
+If you want to install libtimefilter into a specific location then check the 
 --prefix option of the waf configure task. Otherwise simply type::
 
   $ ./waf install
@@ -59,7 +59,7 @@ Licensing
 
 Copyright (c) 2009 Olivier Guilyardi <olivier samalyse com>
 
-Pendule is released under the terms of the New BSD License. 
+libtimefilter is released under the terms of the New BSD License. 
 Please see the LICENSE file for details.
 
 

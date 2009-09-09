@@ -32,12 +32,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PENDULE_H
-#define PENDULE_H
+#ifndef TIMEFILTER_H
+#define TIMEFILTER_H
 
-typedef struct Pendule Pendule;
+typedef struct TimeFilter TimeFilter;
 
-typedef struct PenduleStats {
+typedef struct TimeFilterStats {
     double filter_time;
     double filter_jitter;
     double filter_drift;
@@ -48,7 +48,7 @@ typedef struct PenduleStats {
 
     double device_time;
     double device_drift;
-} PenduleStats;
+} TimeFilterStats;
 
 /**
  * Create a new DLL time filter
@@ -62,9 +62,9 @@ typedef struct PenduleStats {
  * starting point is something between 0.3 and 3 Hz.
  *
  * Warning: the filter is not fully initialized until the first call to 
- * pendule_update()
+ * timefilter_update()
  */
-Pendule * pendule_new(double period, double bandwidth); 
+TimeFilter * timefilter_new(double period, double bandwidth); 
 
 /**
  * Update the filter
@@ -80,18 +80,18 @@ Pendule * pendule_new(double period, double bandwidth);
  * Note: in JACK, you can compensate the delay between the interrupt and the 
  * moment your process callback is called using jack_frames_since_cycle_start().
  */
-void      pendule_update(Pendule *self, double system_time);
+void      timefilter_update(TimeFilter *self, double system_time);
 
 /**
  * Retrieve the filtered time
  *
  * The returned value represents the filtered time of the beginning of the 
- * current cycle as updated by the last call to pendule_update()
+ * current cycle as updated by the last call to timefilter_update()
  *
- * Warning: you must call pendule_update() before this, otherwise the result
+ * Warning: you must call timefilter_update() before this, otherwise the result
  * is undetermined.
  */
-double    pendule_gettime(Pendule *);
+double    timefilter_gettime(TimeFilter *);
 
 /**
  * Reset the filter
@@ -99,22 +99,22 @@ double    pendule_gettime(Pendule *);
  * This function should mainly be called in case of XRUN. 
  *
  * Warning: after calling this, the filter is in an undetermined state until
- * the next call to pendule_update()
+ * the next call to timefilter_update()
  */
-void      pendule_reset(Pendule *); 
+void      timefilter_reset(TimeFilter *); 
 
 /**
  * Retrieve various statistics
  *
- * Warning: you must call pendule_update() before this, otherwise the results
+ * Warning: you must call timefilter_update() before this, otherwise the results
  * are undetermined.
  */
-void      pendule_stats(Pendule *, PenduleStats *stats);
+void      timefilter_stats(TimeFilter *, TimeFilterStats *stats);
 
 /**
  * Free all resources associated with the filter
  */
-void      pendule_destroy(Pendule *);
+void      timefilter_destroy(TimeFilter *);
 
 #endif
 
